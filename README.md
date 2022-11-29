@@ -1,4 +1,6 @@
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Updeus/Flask-Voting-App)
 # Flask-Voting-App
+
 A voting application built with Flask and Bulma for creating the UI. 
 <br>
 <h1> Summary of the project </h1>
