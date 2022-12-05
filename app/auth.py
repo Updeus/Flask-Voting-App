@@ -16,7 +16,7 @@ def login():
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
+    remember = bool(request.form.get('remember'))
 
     user = UserModel.query.filter_by(email=email).first()
 
@@ -52,7 +52,7 @@ def register_post():
 
     user = UserModel.query.filter_by(email=email).first() # if this returns a user, email already exists in db
     roll_no = UserModel.query.filter_by(roll_num =rollno).first()
-    
+
     error = False
     # if a user or roll no is found, we want to redirect to signup page 
     if user: 
@@ -75,22 +75,20 @@ def register_post():
         flash('Enter a valid email','error')
         error = True
 
-    if not set(name).issubset(string.ascii_letters + " "):
+    if not set(name).issubset(f"{string.ascii_letters} "):
         flash('Name can only contain alphabets.','error')
         error = True
-    
+
     if not 10000000 <= int(rollno) < 99999999:
         flash('Roll Number is not valid. Should be 8 digits.','error')
         error = True
-    
-    if error: 
-        return redirect(url_for('auth.register'))
-    else:
+
+    if not error:
         new_user = UserModel(roll_num = rollno, email=email, name=name, password=generate_password_hash(password1, method='sha256'))
         db.session.add(new_user)
         db.session.commit()
         flash('User successfully registered.','success')
-        return redirect(url_for('auth.register'))
+    return redirect(url_for('auth.register'))
 
     
 
